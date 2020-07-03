@@ -78,6 +78,6 @@ func getTestData() map[string]interface{} {
 			"mom": "Sarah Connor",
 			"dad": "Kyle Reese",
 		},
-		"enemies": []interface{}{"first terminator", "second terminator", "third terminator"},
+		"enemies": []interface{}{"T-1000", "T-3000", "T-5000"},
 	}
 }

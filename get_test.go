@@ -75,19 +75,19 @@ func TestArrays(t *testing.T) {
 
 	{
 		value, err := Get(d, "enemies.0")
-		assert.Equal(t, "first terminator", value)
+		assert.Equal(t, "T-1000", value)
 		assert.Nil(t, err)
 	}
 
 	{
 		value, err := Get(d, "enemies.1")
-		assert.Equal(t, "second terminator", value)
+		assert.Equal(t, "T-3000", value)
 		assert.Nil(t, err)
 	}
 
 	{
 		value, err := Get(d, "enemies.2")
-		assert.Equal(t, "third terminator", value)
+		assert.Equal(t, "T-5000", value)
 		assert.Nil(t, err)
 	}
 
