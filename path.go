@@ -98,18 +98,31 @@ func (path Path) Set(object interface{}, value interface{}) error {
 	return derp.New(500, "path.Path.Set", "Not Implemented")
 }
 
+// IsEmpty returns TRUE if this path does not contain any tokens
 func (path Path) IsEmpty() bool {
 	return len(path) == 0
 }
 
+// Head returns the first token in the path.
 func (path Path) Head() string {
 	return path[0]
 }
 
+// Tail returns a slice of all tokens *after the first token*
 func (path Path) Tail() Path {
 	return path[1:]
 }
 
+// String implements the Stringer interface, and converts the path into a readable string
+func (path Path) String() string {
+	return strings.Join(path, ".")
+}
+
+// Index is useful for vetting array indices.  It attempts to convert the Head() token int
+// an integer, and then check that the integer is within the designated array bounds (is greater than zero,
+// and less than the maximum value provided to the function).
+//
+// It returns the array index and an error
 func (path Path) Index(maximum int) (int, error) {
 
 	result, err := strconv.Atoi(path.Head())
