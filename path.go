@@ -135,7 +135,7 @@ func (path Path) Index(maximum int) (int, error) {
 		return 0, derp.New(500, "path.Index", "Index cannot be negative", path, maximum)
 	}
 
-	if result >= maximum {
+	if (maximum != -1) && (result >= maximum) {
 		return 0, derp.New(500, "path.Index", "Index out of bounds", path, maximum)
 	}
 
