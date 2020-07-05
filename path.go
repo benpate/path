@@ -1,6 +1,7 @@
 package path
 
 import (
+	"reflect"
 	"strconv"
 	"strings"
 
@@ -47,49 +48,18 @@ func (path Path) Get(object interface{}) (interface{}, error) {
 		return obj.GetPath(path)
 
 	case map[string]interface{}:
-
-		key := path.Head()
-
-		value, ok := obj[key]
-
-		if !ok {
-			return nil, derp.New(500, "path.Path.Get", "Map entry does not exist", path, object)
-		}
-
-		return path.Tail().Get(value)
+		return path.getMapOfInterface(obj)
 
 	case []interface{}:
-
-		index, err := path.Index(len(obj))
-
-		if err != nil {
-			return nil, derp.Wrap(err, "path.Path.Get", "Invalid array index", path, object)
-		}
-
-		return path.Tail().Get(obj[index])
+		return path.getArrayOfInterface(obj)
 	}
 
 	// Fall through to here means that we're working with an object we don't immediately recognize.
 	// Let's use some reflection :(
 
-	/**
-	t := reflect.TypeOf(object)
+	value := reflect.ValueOf(object)
 
-	switch t.Kind() {
-
-	case reflect.Array:
-
-	case reflect.Slice:
-
-	case reflect.Ptr:
-
-	case reflect.Map:
-
-	case reflect.Struct:
-	}
-	*/
-
-	return nil, derp.New(500, "path.Path.Get", "Unsupported data type", path, object)
+	return path.getReflect(value)
 }
 
 // Set tries to return the value of the object at this path.
