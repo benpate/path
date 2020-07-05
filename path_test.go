@@ -255,3 +255,10 @@ func TestSet(t *testing.T) {
 	// Not implemented yet, so this should just error
 	assert.NotNil(t, Set(d, "anywhere.doesnt.matter", "1"))
 }
+
+func TestString(t *testing.T) {
+
+	p := New("this.is.a.path.7")
+
+	assert.Equal(t, "this.is.a.path.7", p.String())
+}
