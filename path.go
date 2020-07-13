@@ -23,9 +23,7 @@ func New(value string) Path {
 
 // Get tries to return the value of the object at the provided path.
 func Get(object interface{}, path string) (interface{}, error) {
-
 	return New(path).Get(object)
-
 }
 
 // Set tries to set the value of the object at the provided path.
@@ -65,12 +63,30 @@ func (path Path) Get(object interface{}) (interface{}, error) {
 // Set tries to return the value of the object at this path.
 func (path Path) Set(object interface{}, value interface{}) error {
 
-	return derp.New(500, "path.Path.Set", "Not Implemented")
+	switch obj := object.(type) {
+
+	case Setter:
+		return obj.SetPath(path, value)
+
+	case map[string]interface{}:
+		return path.setMapOfInterface(obj, value)
+
+	case []interface{}:
+		return path.setArrayOfInterface(obj, value)
+
+	}
+
+	return path.setReflect(reflect.ValueOf(object), reflect.ValueOf(value))
 }
 
 // IsEmpty returns TRUE if this path does not contain any tokens
 func (path Path) IsEmpty() bool {
 	return len(path) == 0
+}
+
+// HasTail returns TRUE if this path has one or more items in its tail.
+func (path Path) HasTail() bool {
+	return len(path) > 1
 }
 
 // Head returns the first token in the path.
