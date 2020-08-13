@@ -89,6 +89,11 @@ func (path Path) HasTail() bool {
 	return len(path) > 1
 }
 
+// IsTailEmpty returns TRUE if this path has one or more items in its tail.
+func (path Path) IsTailEmpty() bool {
+	return len(path) <= 1
+}
+
 // Head returns the first token in the path.
 func (path Path) Head() string {
 	return path[0]
