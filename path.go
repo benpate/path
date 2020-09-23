@@ -109,6 +109,11 @@ func (path Path) String() string {
 	return strings.Join(path, ".")
 }
 
+// Push returns a new path with a new value appended to the beginning of the path.
+func (path Path) Push(value string) Path {
+	return append([]string{value}, path...)
+}
+
 // Index is useful for vetting array indices.  It attempts to convert the Head() token int
 // an integer, and then check that the integer is within the designated array bounds (is greater than zero,
 // and less than the maximum value provided to the function).
