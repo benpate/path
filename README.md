@@ -3,7 +3,7 @@
 
 [![GoDoc](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](http://godoc.org/github.com/benpate/path)
 [![Go Report Card](https://goreportcard.com/badge/github.com/benpate/path?style=flat-square)](https://goreportcard.com/report/github.com/benpate/path)
-[![Build Status](http://img.shields.io/travis/benpate/path.svg?style=flat-square)](https://travis-ci.org/benpate/path)
+[![Build Status](http://img.shields.io/travis/benpate/path.svg?style=flat-square)](https://travis-ci.com/benpate/path)
 [![Codecov](https://img.shields.io/codecov/c/github/benpate/path.svg?style=flat-square)](https://codecov.io/gh/benpate/path)
 ![Version](https://img.shields.io/github/v/release/benpate/path?include_prereleases&style=flat-square&color=brightgreen)
 

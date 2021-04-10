@@ -1,8 +1,8 @@
 module github.com/benpate/path
 
-go 1.15
+go 1.16
 
 require (
-	github.com/benpate/derp v0.20.1
-	github.com/stretchr/testify v1.6.1
+	github.com/benpate/derp v0.21.0
+	github.com/stretchr/testify v1.7.0
 )
