@@ -31,6 +31,10 @@ func Set(object interface{}, path string, value interface{}) error {
 	return New(path).Set(object, value)
 }
 
+func Delete(object interface{}, path string) error {
+	return New(path).Delete(object)
+}
+
 // Get tries to return the value of the object at this path.
 func (path Path) Get(object interface{}) (interface{}, error) {
 
@@ -79,6 +83,17 @@ func (path Path) Set(object interface{}, value interface{}) error {
 	return path.setReflect(reflect.ValueOf(object), reflect.ValueOf(value))
 }
 
+// Delete tries to remove a value from ths object at this path
+func (path Path) Delete(object interface{}) error {
+
+	switch obj := object.(type) {
+	case Deleter:
+		return obj.DeletePath(path)
+	}
+
+	return derp.New(500, "path.Path.Delete", "Unable to delete from this type of record.")
+}
+
 // IsEmpty returns TRUE if this path does not contain any tokens
 func (path Path) IsEmpty() bool {
 	return len(path) == 0
@@ -102,6 +117,18 @@ func (path Path) Head() string {
 // Tail returns a slice of all tokens *after the first token*
 func (path Path) Tail() Path {
 	return path[1:]
+}
+
+// Split returns two values, the Head and the Tail of the current path
+func (path Path) Split() (string, Path) {
+	switch len(path) {
+	case 0:
+		return "", New("")
+	case 1:
+		return path[0], New("")
+	default:
+		return path[0], path[1:]
+	}
 }
 
 // String implements the Stringer interface, and converts the path into a readable string

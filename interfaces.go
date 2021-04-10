@@ -9,3 +9,8 @@ type Getter interface {
 type Setter interface {
 	SetPath(Path, interface{}) error
 }
+
+// Deleter interface allows other objects to make it easy to trace through their property trees, and delete values from them.
+type Deleter interface {
+	DeletePath(Path) error
+}
