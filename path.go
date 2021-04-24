@@ -1,7 +1,6 @@
 package path
 
 import (
-	"reflect"
 	"strconv"
 	"strings"
 
@@ -49,19 +48,24 @@ func (path Path) Get(object interface{}) (interface{}, error) {
 	case Getter:
 		return obj.GetPath(path)
 
-	case map[string]interface{}:
-		return path.getMapOfInterface(obj)
+	case []string:
+		return getSliceOfString(path, obj)
+
+	case []int:
+		return getSliceOfInt(path, obj)
 
 	case []interface{}:
-		return path.getArrayOfInterface(obj)
+		return getSliceOfInterface(path, obj)
+
+	case []Getter:
+		return getSliceOfGetter(path, obj)
+
+	case map[string]interface{}:
+		return getMapOfInterface(path, obj)
+
 	}
 
-	// Fall through to here means that we're working with an object we don't immediately recognize.
-	// Let's use some reflection :(
-
-	value := reflect.ValueOf(object)
-
-	return path.getReflect(value)
+	return nil, derp.New(500, "path.Path.Get", "Object does not support 'Getter' interface", object)
 }
 
 // Set tries to return the value of the object at this path.
@@ -72,15 +76,24 @@ func (path Path) Set(object interface{}, value interface{}) error {
 	case Setter:
 		return obj.SetPath(path, value)
 
-	case map[string]interface{}:
-		return path.setMapOfInterface(obj, value)
+	case []string:
+		return setSliceOfString(path, obj, value)
+
+	case []int:
+		return setSliceOfInt(path, obj, value)
 
 	case []interface{}:
-		return path.setArrayOfInterface(obj, value)
+		return setSliceOfInterface(path, obj, value)
+
+	case []Setter:
+		return setSliceOfSetter(path, obj, value)
+
+	case map[string]interface{}:
+		return setMapOfInterface(path, obj, value)
 
 	}
 
-	return path.setReflect(reflect.ValueOf(object), reflect.ValueOf(value))
+	return derp.New(500, "path.Path.Set", "Object does not support 'Setter' interface", object)
 }
 
 // Delete tries to remove a value from ths object at this path
