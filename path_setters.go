@@ -72,3 +72,13 @@ func setMapOfInterface(path Path, object map[string]interface{}, value interface
 
 	return derp.New(500, "path.Set", "Unimplemented")
 }
+
+func setMapOfString(path Path, object map[string]string, value interface{}) error {
+
+	if path.IsTailEmpty() {
+		object[path.Head()] = convert.String(value)
+		return nil
+	}
+
+	return derp.New(500, "path.Set", "Unimplemented")
+}

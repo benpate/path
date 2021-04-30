@@ -60,15 +60,24 @@ func getSliceOfGetter(path Path, value []Getter) (interface{}, error) {
 	return path.Tail().Get(value[index])
 }
 
-func getMapOfInterface(path Path, value map[string]interface{}) (interface{}, error) {
+func getMapOfString(path Path, value map[string]string) (interface{}, error) {
 
-	key := path.Head()
+	head, tail := path.Split()
 
-	field, ok := value[key]
-
-	if !ok {
-		return nil, derp.New(500, "path.Path.Get", "Map entry does not exist", path, value)
+	if tail.IsEmpty() {
+		return value[head], nil
 	}
 
-	return path.Tail().Get(field)
+	return nil, derp.New(500, "path.getMapOfString", "Invalid Path", path)
+}
+
+func getMapOfInterface(path Path, value map[string]interface{}) (interface{}, error) {
+
+	head, tail := path.Split()
+
+	if tail.IsEmpty() {
+		return value[head], nil
+	}
+
+	return tail.Get(value[head])
 }

@@ -43,7 +43,7 @@ func TestProperties(t *testing.T) {
 	{
 		value, err := Get(d, "missing property")
 		assert.Nil(t, value)
-		assert.NotNil(t, err)
+		assert.Nil(t, err)
 	}
 }
 
@@ -66,7 +66,7 @@ func TestSubProperties(t *testing.T) {
 	{
 		value, err := Get(d, "relatives.sister")
 		assert.Nil(t, value)
-		assert.NotNil(t, err)
+		assert.Nil(t, err)
 	}
 }
 

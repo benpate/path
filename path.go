@@ -60,6 +60,9 @@ func (path Path) Get(object interface{}) (interface{}, error) {
 	case []Getter:
 		return getSliceOfGetter(path, obj)
 
+	case map[string]string:
+		return getMapOfString(path, obj)
+
 	case map[string]interface{}:
 		return getMapOfInterface(path, obj)
 
@@ -88,6 +91,9 @@ func (path Path) Set(object interface{}, value interface{}) error {
 	case []Setter:
 		return setSliceOfSetter(path, obj, value)
 
+	case map[string]string:
+		return setMapOfString(path, obj, value)
+
 	case map[string]interface{}:
 		return setMapOfInterface(path, obj, value)
 
@@ -100,8 +106,27 @@ func (path Path) Set(object interface{}, value interface{}) error {
 func (path Path) Delete(object interface{}) error {
 
 	switch obj := object.(type) {
+
 	case Deleter:
 		return obj.DeletePath(path)
+
+	case []string:
+		return deleteSliceOfString(path, obj)
+
+	case []int:
+		return deleteSliceOfInt(path, obj)
+
+	case []interface{}:
+		return deleteSliceOfInterface(path, obj)
+
+	case []Deleter:
+		return deleteSliceOfDeleter(path, obj)
+
+	case map[string]string:
+		return deleteMapOfString(path, obj)
+
+	case map[string]interface{}:
+		return deleteMapOfInterface(path, obj)
 	}
 
 	return derp.New(500, "path.Path.Delete", "Unable to delete from this type of record.")
